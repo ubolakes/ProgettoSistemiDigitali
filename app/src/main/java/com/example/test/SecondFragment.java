@@ -67,7 +67,7 @@ public class SecondFragment extends Fragment {
                 password_tv.setText(passwordController.getPassword());
                 //verifica NIST
                 testNistController.testPassword(passwordController.getPassword());
-
+                nistResult_tv.setText(testNistController.toString());
             }
         });
 

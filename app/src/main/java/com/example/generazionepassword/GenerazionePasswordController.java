@@ -15,7 +15,7 @@ public class GenerazionePasswordController implements HomeGenerazionePassword{
         //prendo l'immagine
         //la elaboro e produco la password
 
-        this.password = "";
+        this.password = "TEST MIAO";
     }
 
     @Override
