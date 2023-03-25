@@ -14,8 +14,7 @@ public class GenerazionePasswordController implements HomeGenerazionePassword{
     public void generaPassword(Bitmap immagine) {
         //prendo l'immagine
         //la elaboro e produco la password
-
-        this.password = "TEST MIAO";
+        this.password += "i8cdhbdc{XS]swb1B-~=<";
     }
 
     @Override

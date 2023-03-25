@@ -61,12 +61,13 @@ public class SecondFragment extends Fragment {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                password_tv.setText("");
                 //genera password
                 Bitmap bm = previewView.getBitmap();
                 passwordController.generaPassword(bm);
                 password_tv.setText(passwordController.getPassword());
                 //verifica NIST
-                testNistController.testPassword(passwordController.getPassword());
+                testNistController.testRandomness(passwordController.getPassword());
                 nistResult_tv.setText(testNistController.toString());
             }
         });
