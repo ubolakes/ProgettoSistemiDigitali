@@ -1,37 +1,30 @@
 package com.example.test;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraSelector;
-import androidx.camera.core.ImageAnalysis;
-import androidx.camera.core.ImageCapture;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
-import androidx.navigation.fragment.NavHostFragment;
 
+import com.example.generazionepassword.GenerazionePasswordController;
 import com.example.test.databinding.FragmentSecondBinding;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.Executor;
-import java.util.zip.Inflater;
+
+import com.example.utility.TestNistController;
+import com.example.generazionepassword.HomeGenerazionePassword;
 
 public class SecondFragment extends Fragment {
 
@@ -42,15 +35,17 @@ public class SecondFragment extends Fragment {
     public static final String EXTRA_INFO = "default";
     private Button btnCapture;
     private static final int Image_Capture_Code = 1;
-
-    private TextView password_tv;
+    private GenerazionePasswordController passwordController;
+    private TestNistController testNistController;
+    private TextView password_tv, nistResult_tv, securityLevel_tv;
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
+        passwordController = new GenerazionePasswordController();
+        testNistController = new TestNistController();
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -59,15 +54,20 @@ public class SecondFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //camera
-        previewView = (PreviewView) getView().findViewById(R.id.preview_view);
+        previewView = getView().findViewById(R.id.preview_view);
+        nistResult_tv = getView().findViewById(R.id.nist_result_tv);
         password_tv = getView().findViewById(R.id.password_tv);
-        btnCapture = (Button) getView().findViewById(R.id.genera_password);
+        btnCapture = getView().findViewById(R.id.genera_password);
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //to-do
-                //prende l'immagine dalla preview view e ne genera la password
-                password_tv.setText("CIAO");
+                //genera password
+                Bitmap bm = previewView.getBitmap();
+                passwordController.generaPassword(bm);
+                password_tv.setText(passwordController.getPassword());
+                //verifica NIST
+                testNistController.testPassword(passwordController.getPassword());
+
             }
         });
 
