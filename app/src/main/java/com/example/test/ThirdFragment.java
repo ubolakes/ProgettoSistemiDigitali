@@ -37,7 +37,7 @@ public class ThirdFragment extends Fragment {
     private FragmentThirdBinding binding;
     private TextView keys_tv, nistResult_tv;
 
-    private final static int numImages = 10;
+    private final static int numImages = 5;
     private TestNistController testNistController;
     private GenerazioneKeyController keyController;
 

@@ -15,6 +15,9 @@ import java.util.Arrays;
 
 public class GenerazioneKeyController implements HomeGenerazioneKey{
 
+    //vale per MD5
+    //128 bit == 16 byte
+    private static int hashOutputLength = 16;
     private static int keySize = 2048;
     private byte[] seed;
     private KeyPair chiavi;
@@ -33,6 +36,8 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
         MessageDigest messageDigest;
         ByteArrayOutputStream stream;
         byte[] byteArray;
+
+        this.seed = new byte[immagini.length * hashOutputLength];
 
         try {
             messageDigest = MessageDigest.getInstance("MD5");
