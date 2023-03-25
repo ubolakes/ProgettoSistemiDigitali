@@ -61,7 +61,6 @@ public class SecondFragment extends Fragment {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                password_tv.setText("");
                 //genera password
                 Bitmap bm = previewView.getBitmap();
                 passwordController.generaPassword(bm);
