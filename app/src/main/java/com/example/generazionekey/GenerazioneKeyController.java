@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import com.google.common.primitives.Bytes;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
@@ -19,8 +20,12 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     private KeyPair chiavi;
     private KeyPairGenerator generator;
 
-    public GenerazioneKeyController() throws NoSuchAlgorithmException {
-        this.generator = KeyPairGenerator.getInstance("RSA");
+    public GenerazioneKeyController(){
+        try{
+            this.generator = KeyPairGenerator.getInstance("RSA");
+        }catch (NoSuchAlgorithmException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -46,8 +51,8 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     }
 
     @Override
-    public void generaChiavi(String seed) {
-        SecureRandom initializer = new SecureRandom(seed.getBytes());
+    public void generaChiavi() {
+        SecureRandom initializer = new SecureRandom(this.seed);
         this.generator.initialize(keySize, initializer);
         //genero la coppia di chiavi
         this.chiavi = this.generator.generateKeyPair();
@@ -59,6 +64,10 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
 
     public String getPrivateKey(){
         return this.chiavi.getPrivate().toString();
+    }
+
+    public String getSeed(){
+        return new String(this.seed, StandardCharsets.UTF_8);
     }
 
 }

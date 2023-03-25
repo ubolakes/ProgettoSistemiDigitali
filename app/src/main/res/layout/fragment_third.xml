@@ -28,7 +28,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/password_tv"
+        android:id="@+id/keys_tv"
         android:layout_width="349dp"
         android:layout_height="46dp"
         android:layout_marginBottom="244dp"

@@ -1,5 +1,6 @@
 package com.example.test;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,8 +18,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.generazionekey.GenerazioneKeyController;
 import com.example.test.databinding.FragmentSecondBinding;
 import com.example.test.databinding.FragmentThirdBinding;
+import com.example.utility.TestNistController;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import java.util.concurrent.Executor;
@@ -32,13 +35,21 @@ public class ThirdFragment extends Fragment {
 
     private Button btnCapture;
     private FragmentThirdBinding binding;
-    private TextView keys_tv;
+    private TextView keys_tv, nistResult_tv;
+
+    private final static int numImages = 10;
+    private TestNistController testNistController;
+    private GenerazioneKeyController keyController;
+
 
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ){
+        testNistController = new TestNistController();
+        keyController = new GenerazioneKeyController();
+
         binding = FragmentThirdBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -49,13 +60,25 @@ public class ThirdFragment extends Fragment {
         //camera
         previewView = getView().findViewById(R.id.preview_view);
         keys_tv = getView().findViewById(R.id.keys_tv);
+        nistResult_tv = getView().findViewById(R.id.nist_result_tv);
         btnCapture = getView().findViewById(R.id.genera_keys);
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                //to do
-                //prende l'immagine dalla preview view, ne genera il seed e la coppia di chiavi
-                keys_tv.setText("CIAONE");
+                Bitmap[] images = new Bitmap[numImages];
+                //prendo le immagini per generare il seed
+                for(int k = 0; k<numImages; k++){
+                    images[k] = previewView.getBitmap();
+                }
+                //genero seed e chiavi
+                keyController.generaSeed(images);
+                keyController.generaChiavi();
+                //verifico randomicità del seed
+                testNistController.testRandomness(keyController.getSeed());
+                //stampo esiti
+                keys_tv.setText("Private Key: " + keyController.getPrivateKey()
+                                + "\nPublic Key: " + keyController.getPublicKey());
+                nistResult_tv.setText(testNistController.toString());
             }
         });
 
