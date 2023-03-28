@@ -12,6 +12,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class GenerazioneKeyController implements HomeGenerazioneKey{
 
@@ -22,10 +23,6 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     private byte[] seed;
     private KeyPair chiavi;
     private KeyPairGenerator generator;
-
-    private static String estraiMod = "(?<==)[^,]+";
-    private static String estraiExp = "(?<==)[^}]+";
-
 
     public GenerazioneKeyController(){
         try{
@@ -63,20 +60,20 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     public void generaChiavi() {
         SecureRandom initializer = new SecureRandom(this.seed);
         this.generator.initialize(keySize, initializer);
-        //genero la coppia di chiavi
+        //genero la coppia di chiavi]
         this.chiavi = this.generator.generateKeyPair();
     }
 
     public String getPublicKey(){
-        String mod = this.chiavi.getPrivate().toString().split(estraiMod)[0];
-        String exp = this.chiavi.getPrivate().toString().split(estraiExp)[0];
-        return "\nModule: " + mod + "\nExponent = " + exp;
+        String mod = this.chiavi.getPrivate().toString().split(",")[0].split("=")[1];
+        String exp = this.chiavi.getPrivate().toString().split("=")[2].split(Pattern.quote("}"))[0];
+        return "Module: " + mod + "\nExponent: " + exp;
     }
 
     public String getPrivateKey() {
-        String mod = this.chiavi.getPrivate().toString().split(estraiMod)[0];
-        String exp = this.chiavi.getPrivate().toString().split(estraiExp)[0];
-        return "\nModule: " + mod + "\nExponent = " + exp;
+        String mod = this.chiavi.getPrivate().toString().split(",")[0].split("=")[1];
+        String exp = this.chiavi.getPrivate().toString().split("=")[2].split(Pattern.quote("}"))[0];
+        return "Module: " + mod + "\nExponent: " + exp;
     }
 
     public String getSeed(){

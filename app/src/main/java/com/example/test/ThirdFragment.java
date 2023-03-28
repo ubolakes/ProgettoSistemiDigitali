@@ -78,8 +78,8 @@ public class ThirdFragment extends Fragment {
                 //verifico randomicità del seed
                 //testNistController.testRandomness(keyController.getSeed());
                 //stampo esiti
-                keys_tv.setText(keyController.getPrivateKey() + "\n" + keyController.getPublicKey()
-                        /*"Private Key: " + keyController.getPrivateKey() + "\nPublic Key: " + keyController.getPublicKey().toString()*/);
+                keys_tv.setText("Private Key :\n" + keyController.getPrivateKey() + "\n"
+                                + "Public Key :\n" + keyController.getPublicKey());
                 //nistResult_tv.setText(testNistController.toString());
             }
         });
