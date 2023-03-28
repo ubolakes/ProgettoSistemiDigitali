@@ -53,61 +53,11 @@ public class TestNistController implements ViewVerificaAleatorieta{
     }
 
     @Override
-    public void testPassword(String password) {
-        byte[] input = password.getBytes(StandardCharsets.UTF_8);
-
-        //bits è la struttura dati apposita per passare i dati ai metodi di testing
-        Bits bits = new ArrayBits(input);
-
-        //eseguo i test e metto gli esiti nella list di boolean
-        results.add(this.frequency.runTest(bits)[0].isPassed());
-        results.add(this.blockFrequency.runTest(bits)[0].isPassed());
-        results.add(this.cumulativeSums.runTest(bits)[0].isPassed());
-        results.add(this.runs.runTest(bits)[0].isPassed());
-        results.add(this.longestRunOfOnes.runTest(bits)[0].isPassed());
-        //results.add(rank.runTest(bits));
-        results.add(this.discreteFourierTransform.runTest(bits)[0].isPassed());
-        results.add(this.nonOverlappingTemplateMatchings.runTest(bits)[0].isPassed());
-        results.add(this.overlappingTemplateMatching.runTest(bits)[0].isPassed());
-        results.add(this.universal.runTest(bits)[0].isPassed());
-        results.add(this.approximateEntropy.runTest(bits)[0].isPassed());
-        results.add(this.randomExcursions.runTest(bits)[0].isPassed());
-        results.add(this.randomExcursionsVariant.runTest(bits)[0].isPassed());
-        results.add(this.serial.runTest(bits)[0].isPassed());
-        results.add(this.linearComplexity.runTest(bits)[0].isPassed());
-    }
-
-    @Override
     public void testRandomness(String toTest){
+        //pulisco la lista dagli elementi salvati
+        this.results.clear();
+
         byte[] input = toTest.getBytes(StandardCharsets.UTF_8);
-
-        //bits è la struttura dati apposita per passare i dati ai metodi di testing
-        Bits bits = new ArrayBits(input);
-
-        //eseguo i test e metto gli esiti nella list di boolean
-        results.add(this.frequency.runTest(bits)[0].isPassed());
-        results.add(this.blockFrequency.runTest(bits)[0].isPassed());
-        results.add(this.cumulativeSums.runTest(bits)[0].isPassed());
-        results.add(this.runs.runTest(bits)[0].isPassed());
-        results.add(this.longestRunOfOnes.runTest(bits)[0].isPassed());
-        //results.add(rank.runTest(bits));
-        results.add(this.discreteFourierTransform.runTest(bits)[0].isPassed());
-        results.add(this.nonOverlappingTemplateMatchings.runTest(bits)[0].isPassed());
-        results.add(this.overlappingTemplateMatching.runTest(bits)[0].isPassed());
-        results.add(this.universal.runTest(bits)[0].isPassed());
-        results.add(this.approximateEntropy.runTest(bits)[0].isPassed());
-        results.add(this.randomExcursions.runTest(bits)[0].isPassed());
-        results.add(this.randomExcursionsVariant.runTest(bits)[0].isPassed());
-        results.add(this.serial.runTest(bits)[0].isPassed());
-        results.add(this.linearComplexity.runTest(bits)[0].isPassed());
-    }
-
-    @Override
-    public void testSeed(String seed) {
-        List<Boolean> results = new ArrayList<Boolean>();
-
-        byte[] input = seed.getBytes(StandardCharsets.UTF_8);
-
         //bits è la struttura dati apposita per passare i dati ai metodi di testing
         Bits bits = new ArrayBits(input);
 
