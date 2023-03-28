@@ -9,10 +9,10 @@ import java.util.List;
 
 public class TestNistController implements ViewVerificaAleatorieta{
 
-    private int M = 520;
-    private int template_lenght = 9;
-    private int m = 2;
-    private int block_size = 16;
+    final private int M = 520;
+    final private int template_lenght = 9;
+    final private int m = 2;
+    final private int block_size = 16;
     //istanze dei metodi
     private Frequency frequency;
     private BlockFrequency blockFrequency;
