@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.generazionekey.GenerazioneKeyController;
 import com.example.test.databinding.FragmentSecondBinding;
 import com.example.test.databinding.FragmentThirdBinding;
+import com.example.utility.GestioneRumoreController;
 import com.example.utility.TestNistController;
 import com.google.common.util.concurrent.ListenableFuture;
 
@@ -40,7 +41,7 @@ public class ThirdFragment extends Fragment {
     private final static int numImages = 5;
     private TestNistController testNistController;
     private GenerazioneKeyController keyController;
-
+    private GestioneRumoreController gestioneRumoreController;
 
     @Override
     public View onCreateView(
@@ -49,6 +50,7 @@ public class ThirdFragment extends Fragment {
     ){
         testNistController = new TestNistController();
         keyController = new GenerazioneKeyController();
+        gestioneRumoreController = new GestioneRumoreController();
 
         binding = FragmentThirdBinding.inflate(inflater, container, false);
         return binding.getRoot();
@@ -68,17 +70,17 @@ public class ThirdFragment extends Fragment {
                 Bitmap[] images = new Bitmap[numImages];
                 //prendo le immagini per generare il seed
                 for(int k = 0; k<numImages; k++){
-                    images[k] = previewView.getBitmap();
+                    images[k] = gestioneRumoreController.applicaRumore(previewView.getBitmap()); //le salvo con il rumore già applicato
                 }
                 //genero seed e chiavi
                 keyController.generaSeed(images);
                 keyController.generaChiavi();
                 //verifico randomicità del seed
-                testNistController.testRandomness(keyController.getSeed());
+                //testNistController.testRandomness(keyController.getSeed());
                 //stampo esiti
-                keys_tv.setText("Private Key: " + keyController.getPrivateKey()
-                                + "\nPublic Key: " + keyController.getPublicKey());
-                nistResult_tv.setText(testNistController.toString());
+                keys_tv.setText(keyController.getPrivateKey() + "\n" + keyController.getPublicKey()
+                        /*"Private Key: " + keyController.getPrivateKey() + "\nPublic Key: " + keyController.getPublicKey().toString()*/);
+                //nistResult_tv.setText(testNistController.toString());
             }
         });
 

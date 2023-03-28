@@ -1,14 +1,15 @@
 package com.example.utility;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
+import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 
 import java.security.SecureRandom;
-import java.util.Timer;
 
 public class GestioneRumoreController implements ViewAggiungiRumore{
 
@@ -17,6 +18,14 @@ public class GestioneRumoreController implements ViewAggiungiRumore{
     public GestioneRumoreController(){
         this.RNG = new SecureRandom();
         this.RNG.setSeed(System.currentTimeMillis());
+
+        //init opencv
+        if(!OpenCVLoader.initDebug())
+            Log.d("ERROR", "Unable to load OpenCV");
+        else
+            Log.d("SUCCESS", "OpenCV loaded");
+
+
     }
 
     @Override

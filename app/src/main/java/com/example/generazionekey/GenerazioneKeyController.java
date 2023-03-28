@@ -23,6 +23,10 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     private KeyPair chiavi;
     private KeyPairGenerator generator;
 
+    private static String estraiMod = "(?<==)[^,]+";
+    private static String estraiExp = "(?<==)[^}]+";
+
+
     public GenerazioneKeyController(){
         try{
             this.generator = KeyPairGenerator.getInstance("RSA");
@@ -64,11 +68,15 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     }
 
     public String getPublicKey(){
-        return this.chiavi.getPublic().toString();
+        String mod = this.chiavi.getPrivate().toString().split(estraiMod)[0];
+        String exp = this.chiavi.getPrivate().toString().split(estraiExp)[0];
+        return "\nModule: " + mod + "\nExponent = " + exp;
     }
 
-    public String getPrivateKey(){
-        return this.chiavi.getPrivate().toString();
+    public String getPrivateKey() {
+        String mod = this.chiavi.getPrivate().toString().split(estraiMod)[0];
+        String exp = this.chiavi.getPrivate().toString().split(estraiExp)[0];
+        return "\nModule: " + mod + "\nExponent = " + exp;
     }
 
     public String getSeed(){

@@ -29,11 +29,11 @@
 
     <TextView
         android:id="@+id/keys_tv"
-        android:layout_width="349dp"
-        android:layout_height="46dp"
+        android:layout_width="351dp"
+        android:layout_height="364dp"
         android:layout_marginBottom="244dp"
-        android:textSize="20dp"
         android:textAlignment="center"
+        android:textSize="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

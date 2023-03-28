@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         if(! checkPermission())
             requestPermission();
 
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
