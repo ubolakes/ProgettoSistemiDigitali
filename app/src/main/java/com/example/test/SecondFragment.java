@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,6 +41,8 @@ public class SecondFragment extends Fragment implements NoticeDialogFragment.Not
     private TestNistController testNistController;
     private TextView password_tv, nistResult_tv, securityLevel_tv;
 
+    private Bitmap bm; //la metto con scope globale in modo che si accessibile a tutti i metodi
+
     @Override
     public View onCreateView(
             LayoutInflater inflater, ViewGroup container,
@@ -62,14 +65,11 @@ public class SecondFragment extends Fragment implements NoticeDialogFragment.Not
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //catturo l'immagine
+                bm = previewView.getBitmap();
+                //chiedo all'utente la lunghezza della password
                 selectCharacterNumber();
-                //genera password
-                Bitmap bm = previewView.getBitmap();
-                passwordController.generaPassword(bm);
-                password_tv.setText(passwordController.getPassword());
-                //verifica NIST
-                testNistController.testRandomness(passwordController.getPassword());
-                nistResult_tv.setText(testNistController.toString());
+
             }
         });
 
@@ -114,6 +114,15 @@ public class SecondFragment extends Fragment implements NoticeDialogFragment.Not
     @Override
     public void onDialogPositiveClick(DialogFragment dialog){
         //utente ha cliccato su "Confirm"
+        //prendo i dati passati nella casella di testo e li passo al controller
+        EditText numChar_ed = dialog.getDialog().findViewById(R.id.numero_caratteri);
+        passwordController.setCharacterNumber(Integer.parseInt(numChar_ed.getText().toString()));
+        //genera password
+        passwordController.generaPassword(bm);
+        password_tv.setText(passwordController.getPassword());
+        //verifica NIST
+        testNistController.testRandomness(passwordController.getPassword());
+        nistResult_tv.setText(testNistController.toString());
     }
 
     @Override

@@ -6,12 +6,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
+import org.w3c.dom.Text;
+
 public class CharacterNumberDialog extends DialogFragment {
+
     @Override
     public Dialog onCreateDialog(Bundle SavedInstanceState){
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Character number selection");
 
@@ -21,18 +27,20 @@ public class CharacterNumberDialog extends DialogFragment {
                 .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //prendo il numero inserito e lo passo al controller
+                        //dalla parte del fragment prendo il valore nella casella di testo
                     }
                 })
                 //ha senso metterlo?
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        //chiudo la finestra di dialogo
                         CharacterNumberDialog.this.getDialog().cancel();
                     }
                 });
         return builder.create();
     }
+
 
 
 }
