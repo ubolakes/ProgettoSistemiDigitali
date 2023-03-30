@@ -14,6 +14,7 @@ import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
@@ -26,7 +27,7 @@ import java.util.concurrent.Executor;
 import com.example.utility.TestNistController;
 import com.example.generazionepassword.HomeGenerazionePassword;
 
-public class SecondFragment extends Fragment {
+public class SecondFragment extends Fragment implements NoticeDialogFragment.NoticeDialogListener {
 
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> provider;
@@ -61,6 +62,7 @@ public class SecondFragment extends Fragment {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectCharacterNumber();
                 //genera password
                 Bitmap bm = previewView.getBitmap();
                 passwordController.generaPassword(bm);
@@ -102,6 +104,26 @@ public class SecondFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    public void showNoticeDialog(){
+        DialogFragment dialog = new NoticeDialogFragment();
+        dialog.show(getActivity().getSupportFragmentManager(), "NoticeDialogFragment");
+    }
+
+    @Override
+    public void onDialogPositiveClick(DialogFragment dialog){
+        //utente ha cliccato su "Confirm"
+    }
+
+    @Override
+    public void onDialogNegativeClick(DialogFragment dialog){
+        //utente ha cliccato su "Cancel"
+    }
+
+    public void selectCharacterNumber(){
+        DialogFragment newFragment = new CharacterNumberDialog();
+        newFragment.show(getActivity().getSupportFragmentManager(), "numCaratteri");
     }
 
 }
