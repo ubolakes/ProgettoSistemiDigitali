@@ -28,7 +28,7 @@ import java.util.concurrent.Executor;
 import com.example.utility.TestNistController;
 import com.example.generazionepassword.HomeGenerazionePassword;
 
-public class SecondFragment extends Fragment implements NoticeDialogFragment.NoticeDialogListener {
+public class SecondFragment extends Fragment implements CharacterNumberDialog.NoticeDialogListener {
 
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> provider;
@@ -117,6 +117,7 @@ public class SecondFragment extends Fragment implements NoticeDialogFragment.Not
         //prendo i dati passati nella casella di testo e li passo al controller
         EditText numChar_ed = dialog.getDialog().findViewById(R.id.numero_caratteri);
         passwordController.setCharacterNumber(Integer.parseInt(numChar_ed.getText().toString()));
+        System.out.println("ciao");
         //genera password
         passwordController.generaPassword(bm);
         password_tv.setText(passwordController.getPassword());
