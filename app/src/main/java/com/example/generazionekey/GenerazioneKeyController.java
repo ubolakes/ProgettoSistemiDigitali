@@ -36,8 +36,18 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     public void generaSeed(Bitmap[] immagini) {
         MessageDigest messageDigest;
         ByteArrayOutputStream stream;
-        byte[] byteArray;
+        this.seed = new byte[immagini.length * immagini[0].getRowBytes() * immagini[0].getHeight()];
 
+        //prendo le bitmap
+        //le converto in array di byte e li concateno
+        for(int i = 0; i < immagini.length; i++) {
+            stream = new ByteArrayOutputStream();
+            immagini[i].compress(Bitmap.CompressFormat.PNG, 100, stream);
+            this.seed = Bytes.concat(this.seed, stream.toByteArray());
+        }
+
+        /*VECCHIA IMPLEMENTAZIONE*/
+        /*
         this.seed = new byte[immagini.length * hashOutputLength];
 
         try {
@@ -54,13 +64,15 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
                 this.seed = Bytes.concat(this.seed, messageDigest.digest(byteArray));
             }
         }catch (NoSuchAlgorithmException e){}
+    */
     }
+
 
     @Override
     public void generaChiavi() {
         SecureRandom initializer = new SecureRandom(this.seed);
         this.generator.initialize(keySize, initializer);
-        //genero la coppia di chiavi]
+        //genero la coppia di chiavi
         this.chiavi = this.generator.generateKeyPair();
     }
 

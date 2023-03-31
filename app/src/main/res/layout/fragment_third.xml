@@ -33,24 +33,24 @@
         android:layout_height="235dp"
         android:textAlignment="center"
         android:textSize="10dp"
+        android:scrollbars="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.608"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/genera_keys"
-        app:layout_constraintVertical_bias="0.263" />
+        app:layout_constraintVertical_bias="0.094" />
 
     <TextView
         android:id="@+id/nist_result_tv"
-        android:layout_width="326dp"
-        android:layout_height="271dp"
-        android:textSize="13dp"
+        android:layout_width="349dp"
+        android:layout_height="80dp"
+        android:layout_marginBottom="4dp"
         android:textAlignment="center"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genera_keys"
-        app:layout_constraintVertical_bias="0.711" />
+        app:layout_constraintTop_toBottomOf="@+id/keys_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

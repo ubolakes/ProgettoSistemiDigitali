@@ -1,6 +1,7 @@
 package com.example.test;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LifecycleOwner;
 
+import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +40,7 @@ public class ThirdFragment extends Fragment {
     private FragmentThirdBinding binding;
     private TextView keys_tv, nistResult_tv;
 
-    private final static int numImages = 5;
+    private final static int numImages = 1;
     private TestNistController testNistController;
     private GenerazioneKeyController keyController;
     private GestioneRumoreController gestioneRumoreController;
@@ -62,25 +64,39 @@ public class ThirdFragment extends Fragment {
         //camera
         previewView = getView().findViewById(R.id.preview_view);
         keys_tv = getView().findViewById(R.id.keys_tv);
+        keys_tv.setMovementMethod(new ScrollingMovementMethod());
         nistResult_tv = getView().findViewById(R.id.nist_result_tv);
         btnCapture = getView().findViewById(R.id.genera_keys);
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
+                //pulisco gli output
+                nistResult_tv.setText("");
+                keys_tv.setText("");
+
                 Bitmap[] images = new Bitmap[numImages];
                 //prendo le immagini per generare il seed
                 for(int k = 0; k<numImages; k++){
                     images[k] = gestioneRumoreController.applicaRumore(previewView.getBitmap()); //le salvo con il rumore già applicato
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
                 //genero seed e chiavi
                 keyController.generaSeed(images);
                 keyController.generaChiavi();
                 //verifico randomicità del seed
-                //testNistController.testRandomness(keyController.getSeed());
+                testNistController.testRandomness(keyController.getSeed());
                 //stampo esiti
                 keys_tv.setText("Private Key :\n" + keyController.getPrivateKey() + "\n"
                                 + "Public Key :\n" + keyController.getPublicKey());
-                //nistResult_tv.setText(testNistController.toString());
+                String secLevel = testNistController.securityLevel();
+                if (secLevel.equals("Not Secure")) nistResult_tv.setTextColor(Color.RED);
+                if (secLevel.equals("Moderately Secure")) nistResult_tv.setTextColor(Color.YELLOW);
+                if (secLevel.equals("Highly Secure")) nistResult_tv.setTextColor(Color.GREEN);
+                nistResult_tv.setText(secLevel);
             }
         });
 
