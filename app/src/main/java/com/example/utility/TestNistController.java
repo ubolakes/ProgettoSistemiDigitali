@@ -144,4 +144,29 @@ public class TestNistController implements ViewVerificaAleatorieta{
 
         return output;
     }
+
+    public String securityLevel(){
+        /*definisco tre livelli di sicurezza:
+         * Low -> passati da 0 a 4 test
+         * Medium -> passati da 5 a 9 test
+         * High -> passati da 10 a 14 */
+
+        String secLevel = new String();
+
+        int numPassed = 0;
+        for(int k = 0; k < this.results.size(); k++){
+            if(this.results.get(k))
+                numPassed++;
+        }
+
+        if (numPassed <= 4){
+            secLevel = "Not Secure";
+        }else if(numPassed <= 9){
+            secLevel = "Modaretely Secure";
+        }else if(numPassed > 9){
+            secLevel = "Highly Secure";
+        }
+        return secLevel;
+    }
+
 }

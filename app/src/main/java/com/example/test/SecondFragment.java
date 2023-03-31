@@ -2,6 +2,7 @@ package com.example.test;
 
 import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,7 +137,12 @@ public class SecondFragment extends Fragment {
                     testNistController.testRandomness(passwordController.getPassword());
                     //mostro a schermo l'esito
                     password_tv.setText(passwordController.getPassword());
-                    nistResult_tv.setText(testNistController.toString());
+                    //modifico il colore della scritta in base al livello
+                    String secLevel = testNistController.securityLevel();
+                    if (secLevel.equals("Not Secure")) securityLevel_tv.setTextColor(Color.RED);
+                    if (secLevel.equals("Moderately Secure")) securityLevel_tv.setTextColor(Color.YELLOW);
+                    if (secLevel.equals("Highly Secure")) securityLevel_tv.setTextColor(Color.GREEN);
+                    nistResult_tv.setText(secLevel);
                     //chiudo il dialog
                     dialog.dismiss();
                 }

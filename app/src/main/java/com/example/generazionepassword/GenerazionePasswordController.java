@@ -71,4 +71,5 @@ public class GenerazionePasswordController implements HomeGenerazionePassword{
     public void setCharacterNumber(int characterNumber){
         this.characterNumber = characterNumber;
     }
+
 }
