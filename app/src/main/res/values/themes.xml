@@ -19,6 +19,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <!--Style for the dialog -->
+    <style name="Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
     <style name="Theme.Test.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Test.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

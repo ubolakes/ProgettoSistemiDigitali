@@ -13,4 +13,9 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+    <!--Style for the dialog -->
+    <style name="Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowNoTitle">false</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
 </resources>

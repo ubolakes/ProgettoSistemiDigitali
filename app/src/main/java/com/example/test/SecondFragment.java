@@ -1,10 +1,12 @@
 package com.example.test;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,7 +30,7 @@ import java.util.concurrent.Executor;
 import com.example.utility.TestNistController;
 import com.example.generazionepassword.HomeGenerazionePassword;
 
-public class SecondFragment extends Fragment implements CharacterNumberDialog.NoticeDialogListener {
+public class SecondFragment extends Fragment {
 
     private PreviewView previewView;
     private ListenableFuture<ProcessCameraProvider> provider;
@@ -68,8 +70,7 @@ public class SecondFragment extends Fragment implements CharacterNumberDialog.No
                 //catturo l'immagine
                 bm = previewView.getBitmap();
                 //chiedo all'utente la lunghezza della password
-                selectCharacterNumber();
-
+                showCustomDialog();
             }
         });
 
@@ -106,34 +107,42 @@ public class SecondFragment extends Fragment implements CharacterNumberDialog.No
         binding = null;
     }
 
-    public void showNoticeDialog(){
-        DialogFragment dialog = new NoticeDialogFragment();
-        dialog.show(getActivity().getSupportFragmentManager(), "NoticeDialogFragment");
-    }
+    //funzione per mostrare il dialogo
+    private void showCustomDialog(){
+        final Dialog dialog = new Dialog(this.getContext(), R.style.Dialog);
+        //metto il titolo
+        dialog.setTitle("Choose password length");
+        //consente all'utente di cancellare il dialogo premendo al di fuori di esso
+        dialog.setCancelable(true);
+        //file xml del layout
+        dialog.setContentView(R.layout.character_number_dialog);
 
-    @Override
-    public void onDialogPositiveClick(DialogFragment dialog){
-        //utente ha cliccato su "Confirm"
-        //prendo i dati passati nella casella di testo e li passo al controller
-        EditText numChar_ed = dialog.getDialog().findViewById(R.id.numero_caratteri);
-        passwordController.setCharacterNumber(Integer.parseInt(numChar_ed.getText().toString()));
-        System.out.println("ciao");
-        //genera password
-        passwordController.generaPassword(bm);
-        password_tv.setText(passwordController.getPassword());
-        //verifica NIST
-        testNistController.testRandomness(passwordController.getPassword());
-        nistResult_tv.setText(testNistController.toString());
-    }
-
-    @Override
-    public void onDialogNegativeClick(DialogFragment dialog){
-        //utente ha cliccato su "Cancel"
-    }
-
-    public void selectCharacterNumber(){
-        DialogFragment newFragment = new CharacterNumberDialog();
-        newFragment.show(getActivity().getSupportFragmentManager(), "numCaratteri");
+        //inizializzo il dialogo
+        final EditText numeroCaratteri_et = dialog.findViewById(R.id.numero_caratteri);
+        Button confirm_bt = dialog.findViewById(R.id.confirm_bt);
+        confirm_bt.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                int numChar = -1;
+                //controllo per evitare errori nel parsing
+                if(!numeroCaratteri_et.getText().toString().isEmpty())
+                        numChar = Integer.parseInt(numeroCaratteri_et.getText().toString());
+                //controllo sul valore inserito
+                if(numChar>=16 && numChar<=25 && numChar!=-1){
+                    //posso generare la password
+                    passwordController.setCharacterNumber(numChar);
+                    passwordController.generaPassword(bm);
+                    //faccio i test NIST
+                    testNistController.testRandomness(passwordController.getPassword());
+                    //mostro a schermo l'esito
+                    password_tv.setText(passwordController.getPassword());
+                    nistResult_tv.setText(testNistController.toString());
+                    //chiudo il dialog
+                    dialog.dismiss();
+                }
+            }
+        });
+        dialog.show();
     }
 
 }
