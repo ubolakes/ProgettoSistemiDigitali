@@ -65,8 +65,8 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     }
 
     public String getPublicKey(){
-        String mod = this.chiavi.getPrivate().toString().split(",")[0].split("=")[1];
-        String exp = this.chiavi.getPrivate().toString().split("=")[2].split(Pattern.quote("}"))[0];
+        String mod = this.chiavi.getPublic().toString().split(",")[0].split("=")[1];
+        String exp = this.chiavi.getPublic().toString().split("=")[2].split(Pattern.quote("}"))[0];
         return "Module: " + mod + "\nExponent: " + exp;
     }
 
