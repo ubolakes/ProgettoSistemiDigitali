@@ -162,7 +162,7 @@ public class TestNistController implements ViewVerificaAleatorieta{
         if (numPassed <= 4){
             secLevel = "Not Secure";
         }else if(numPassed <= 9){
-            secLevel = "Modaretely Secure";
+            secLevel = "Moderately Secure";
         }else if(numPassed > 9){
             secLevel = "Highly Secure";
         }
