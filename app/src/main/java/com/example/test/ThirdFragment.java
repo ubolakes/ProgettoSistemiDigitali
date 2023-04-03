@@ -87,11 +87,11 @@ public class ThirdFragment extends Fragment {
                 //genero seed e chiavi
                 keyController.generaSeed(images);
                 keyController.generaChiavi();
-                //verifico randomicità del seed
-                testNistController.testRandomness(keyController.getSeed());
                 //stampo esiti
                 keys_tv.setText("Private Key :\n" + keyController.getPrivateKey() + "\n"
-                                + "Public Key :\n" + keyController.getPublicKey());
+                        + "Public Key :\n" + keyController.getPublicKey());
+                //verifico randomicità del seed
+                testNistController.testRandomness(keyController.getSeed());
                 String secLevel = testNistController.securityLevel();
                 if (secLevel.equals("Not Secure")) nistResult_tv.setTextColor(Color.RED);
                 if (secLevel.equals("Moderately Secure")) nistResult_tv.setTextColor(Color.YELLOW);

@@ -25,6 +25,7 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     private KeyPairGenerator generator;
 
     public GenerazioneKeyController(){
+        this.seed = new byte[0];
         try{
             this.generator = KeyPairGenerator.getInstance("RSA");
         }catch (NoSuchAlgorithmException e){
@@ -36,14 +37,13 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     public void generaSeed(Bitmap[] immagini) {
         MessageDigest messageDigest;
         ByteArrayOutputStream stream;
-        this.seed = new byte[immagini.length * immagini[0].getRowBytes() * immagini[0].getHeight()];
 
         //prendo le bitmap
         //le converto in array di byte e li concateno
         for(int i = 0; i < immagini.length; i++) {
             stream = new ByteArrayOutputStream();
             immagini[i].compress(Bitmap.CompressFormat.PNG, 100, stream);
-            this.seed = Bytes.concat(this.seed, stream.toByteArray());
+            this.seed = concat(this.seed, stream.toByteArray());
         }
 
         /*VECCHIA IMPLEMENTAZIONE*/
@@ -67,6 +67,23 @@ public class GenerazioneKeyController implements HomeGenerazioneKey{
     */
     }
 
+    //metodo per concatenare due array di byte
+    private byte[] concat(byte[] array1, byte[] array2){
+        int length = array1.length + array2.length;
+
+        byte[] result = new byte[length];
+        int pos = 0;
+        for (byte element : array1) {
+            result[pos] = element;
+            pos++;
+        }
+
+        for (byte element : array2) {
+            result[pos] = element;
+            pos++;
+        }
+        return result;
+    }
 
     @Override
     public void generaChiavi() {
