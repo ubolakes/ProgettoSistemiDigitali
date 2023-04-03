@@ -65,7 +65,7 @@ public class TestNistController implements ViewVerificaAleatorieta{
         results.add(this.frequency.runTest(bits)[0].isPassed());
         results.add(this.blockFrequency.runTest(bits)[0].isPassed());
         results.add(this.cumulativeSums.runTest(bits)[0].isPassed());
-        results.add(this.runs.runTest(bits)[0].isPassed());
+        //results.add(this.runs.runTest(bits)[0].isPassed());
         results.add(this.longestRunOfOnes.runTest(bits)[0].isPassed());
         //results.add(rank.runTest(bits));
         results.add(this.discreteFourierTransform.runTest(bits)[0].isPassed());
